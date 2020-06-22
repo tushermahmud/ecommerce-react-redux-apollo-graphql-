@@ -3,7 +3,7 @@ import DirectoryComponent from "../../components/directory/DirectoryComponent";
 const HomePage=()=>{
     return(
         <div className="homepage">
-            <DirectoryComponent/>
+            <DirectoryComponent />
         </div>
     )
 }
