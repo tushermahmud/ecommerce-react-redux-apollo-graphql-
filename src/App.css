@@ -2,6 +2,9 @@ body{
   font-family: 'Open Sans Condensed', sans-serif;
   padding:20px 80px;
 }
+*{
+  box-sizing: border-box;
+}
 a{
   text-decoration: none;
   color: black;
@@ -205,10 +208,22 @@ a{
   color: black;
   border: 1px solid black;
 }
+.google-sign-in{
+  background: #4285f4;
+  color:white;
+}
+.google-sign-in:hover{
+  background: #3571e8;
+  border: none;
+}
 .sign-in{
-  width:30vw;
+  width:380px;
   display: flex;
   flex-direction: column;
   margin: 10px 0;
+}
+.buttons{
+  display: flex;
+  justify-content: space-between;
 }
 
