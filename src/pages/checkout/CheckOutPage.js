@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import CheckoutItemsComponent from "../../components/checkout-items/CheckoutItemsComponent";
 const CheckOutPage =({cartItems})=>{
     const accumulateTotal=cartItems.reduce((accumulateTotal,cartItem)=>
-        accumulateTotal+cartItem.price,0);
+        accumulateTotal+(cartItem.price*cartItem.quantity),0);
     return(
         <div className="checkout-page">
             <div className="checkout-header">

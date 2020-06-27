@@ -380,4 +380,14 @@ a{
   padding-left: 12px;
   cursor: pointer;
 }
+.checkout-item .quantity{
+  display: flex;
+  padding-left: 0;
+}
+.checkout-item .value{
+  margin: 0 10px;
+}
+.checkout-item .arrow{
+  cursor: pointer;
+}
 
