@@ -8,6 +8,7 @@ import LoginRegistrationPage from "./pages/Login-RegitrationPage/LoginRegistrati
 import {auth,createUserProfileDocument} from "./firebase/firebase.util";
 import {connect} from "react-redux";
 import {setCurrentUser} from "./redux/user/userActions";
+import CheckOutPage from "./pages/checkout/CheckOutPage";
 
 
 const mapStateToProps=({user})=>({
@@ -49,6 +50,7 @@ class App extends React.Component{
                 <Switch>
                     <Route exact path="/" component={HomePage}/>
                     <Route path="/shop" component={ShopPage}/>
+                    <Route exact path="/checkout" component={CheckOutPage}/>
                     <Route exact path="/login" render={()=>
                         this.props.currentUser!=null?(<Redirect to="/"/>):
                         (<LoginRegistrationPage/>)}/>
