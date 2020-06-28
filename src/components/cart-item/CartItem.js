@@ -1,13 +1,9 @@
 import React,{Component} from "react";
 
 class CartItem extends Component{
-    constructor(props) {
-        super(props);
-    }
     componentDidMount() {
         console.log("update");
     }
-
     render() {
         const {name,price,quantity,imageUrl}=this.props.item;
         return(
