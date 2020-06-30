@@ -1,4 +1,4 @@
-import React,{Component} from "react";
+import React from "react";
 import MenuItems from "../menu-items/MenuItemComponent";
 import {connect} from "react-redux";
 const DirectoryComponent =({sections})=>{

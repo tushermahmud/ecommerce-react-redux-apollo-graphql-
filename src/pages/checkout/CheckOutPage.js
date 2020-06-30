@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {removeItemFromCart, removeItemFromCheckout,addCartItems} from "../../redux/cart/cartActions";
-
+import StripeButtonComponent from "../../components/stripe-button/StripeButtonComponent";
 const mapStateToProps =state=>({
     cartItems:state.cart.cartItems
 });
@@ -29,6 +29,8 @@ class CheckOutPage extends React.Component{
         </div>
     );
     render() {
+        const accumulatedTotal=this.props.cartItems.reduce((accumulateTotal,cartItem)=>
+                accumulateTotal+(cartItem.price*cartItem.quantity),0);
         return(
             <div className="checkout-page">
                 <div className="checkout-header">
@@ -50,9 +52,14 @@ class CheckOutPage extends React.Component{
                 </div>
                 {this.props.cartItems.map(cartItem=>(this.checkoutItems(cartItem)))}
                 <div className="total">
-                    <span>TOTAL: {this.props.cartItems.reduce((accumulateTotal,cartItem)=>
-                        accumulateTotal+(cartItem.price*cartItem.quantity),0)}TK</span>
+                    <span>TOTAL: {accumulatedTotal}TK</span>
                 </div>
+                <div className="test-warning">
+                    *Please use the following credit card for the payment* <br/>
+                    Card NO:4242424242424242 <br/>
+                    Expire date:01/22
+                </div>
+                <StripeButtonComponent price={accumulatedTotal}/>
             </div>
         )
     }

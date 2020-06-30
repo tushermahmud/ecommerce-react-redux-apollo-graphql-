@@ -1,21 +1,14 @@
 import React from "react";
-import {connect} from "react-redux";
-import PreviewCollectionCompontent from "../../components/preview-collection/PreviewCollectionComponent";
-class ShopPage extends React.Component{
-    render() {
-        const {collections}=this.props;
-        return (
-            <div className="shop-page">
-                {
-                    collections.map(collection=>(
-                        <PreviewCollectionCompontent key={collection.id} collection={collection}/>
-                    ))
-                }
-            </div>
-        );
-    }
+import {Route} from "react-router-dom";
+import CategoryPage from "../category/CategoryPage";
+import CollectionOverviewComponent from "../../components/collection-overview/CollectionOverviewComponent";
+const ShopPage =({match})=>{
+    return (
+        <div className="shop-page">
+            <Route exact path={`${match.path}`} component={CollectionOverviewComponent}/>
+            <Route exact path={`${match.path}/:categoryId`} component={CategoryPage}/>
+        </div>
+    );
 }
-const mapStateToProps=state=>({
-   collections:state.shop.collections
-});
-export default connect(mapStateToProps)(ShopPage);
+
+export default ShopPage;
