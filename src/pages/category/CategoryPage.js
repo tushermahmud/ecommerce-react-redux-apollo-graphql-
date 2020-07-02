@@ -1,21 +1,12 @@
 import React from "react";
 import {connect} from "react-redux";
 import CollectionItemsComponent from "../../components/collection-items/CollectionItemsComponent";
-import {covertCollectionSnapshotToMap, firestore} from "../../firebase/firebase.util";
 
 class CategoryPage extends React.Component {
     state={
         items:[],
     }
-    componentDidMount() {
-        /*const {updateCollections}=this.props;
-        const collectionRef=firestore.collection('collections');
-        collectionRef.onSnapshot(async snapshot=>{
-            const collectionsMap=covertCollectionSnapshotToMap(snapshot);
-            updateCollections(collectionsMap)
-        })*/
 
-    }
     render() {
         let items=null;
         const {match,collections}=this.props;

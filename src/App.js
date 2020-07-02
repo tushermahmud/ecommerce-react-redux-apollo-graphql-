@@ -32,6 +32,12 @@ class App extends React.Component{
     unsbuscribeFromSnapshot=null;
 
     componentDidMount() {
+        const {updateCollections}=this.props;
+        const collectionRef=firestore.collection('collections');
+        this.unsbuscribeFromSnapshot=collectionRef.onSnapshot(async snapshot=>{
+            const collectionsMap=covertCollectionSnapshotToMap(snapshot);
+            updateCollections(collectionsMap)
+        });
         const {setCurrentUser}=this.props;
         addCollectionsAndItems('collections',this.props.collectionsArray
             .map(({title,items})=>({title,items})));
@@ -49,16 +55,13 @@ class App extends React.Component{
             setCurrentUser(userAuth);
 
         });
-        const {updateCollections}=this.props;
-        const collectionRef=firestore.collection('collections');
-        this.unsbuscribeFromSnapshot=collectionRef.onSnapshot(async snapshot=>{
-            const collectionsMap=covertCollectionSnapshotToMap(snapshot);
-            updateCollections(collectionsMap)
-        })
+        
     }
 
     componentWillUnmount() {
         this.unsubscribeFromAuth();
+        this.unsbuscribeFromSnapshot();
+
     }
 
     render() {
