@@ -5,25 +5,36 @@ import HomePage from "./pages/Homepage/HomePageComponent";
 import ShopPage from "./pages/shop/ShopPage";
 import HeaderComponent from "./components/header/HeaderComponent";
 import LoginRegistrationPage from "./pages/Login-RegitrationPage/LoginRegistrationPage";
-import {auth,createUserProfileDocument} from "./firebase/firebase.util";
+import {
+    auth,
+    createUserProfileDocument,
+    addCollectionsAndItems,
+    firestore,
+    covertCollectionSnapshotToMap
+} from "./firebase/firebase.util";
 import {connect} from "react-redux";
 import {setCurrentUser} from "./redux/user/userActions";
 import CheckOutPage from "./pages/checkout/CheckOutPage";
+import {updateCollections} from "./redux/shop/shopAction";
 
 
-const mapStateToProps=({user})=>({
-    currentUser:user.currentUser
+const mapStateToProps=({user,shop})=>({
+    currentUser:user.currentUser,
+    collectionsArray:shop.collections,
 });
 
 const mapDispatchToProps=dispatch=>({
-    setCurrentUser:(user)=>dispatch(setCurrentUser(user))
+    setCurrentUser:(user)=>dispatch(setCurrentUser(user)),
+    updateCollections:(collectionMap)=>dispatch(updateCollections(collectionMap))
 });
 class App extends React.Component{
     unsubscribeFromAuth=null;
+    unsbuscribeFromSnapshot=null;
 
     componentDidMount() {
-
         const {setCurrentUser}=this.props;
+        addCollectionsAndItems('collections',this.props.collectionsArray
+            .map(({title,items})=>({title,items})));
         this.unsubscribeFromAuth=auth.onAuthStateChanged(async userAuth=>{
             if(userAuth){
                 const userRef=createUserProfileDocument(userAuth);
@@ -38,7 +49,14 @@ class App extends React.Component{
             setCurrentUser(userAuth);
 
         });
+        const {updateCollections}=this.props;
+        const collectionRef=firestore.collection('collections');
+        this.unsbuscribeFromSnapshot=collectionRef.onSnapshot(async snapshot=>{
+            const collectionsMap=covertCollectionSnapshotToMap(snapshot);
+            updateCollections(collectionsMap)
+        })
     }
+
     componentWillUnmount() {
         this.unsubscribeFromAuth();
     }

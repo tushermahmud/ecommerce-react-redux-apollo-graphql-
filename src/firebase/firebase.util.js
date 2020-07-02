@@ -12,6 +12,41 @@ const config={
     appId: "1:539395544447:web:fa21ea1202677fc481b64a",
     measurementId: "G-1VSJJWTTDJ"
 };
+
+export const addCollectionsAndItems=async (connectionKey,objectToDo)=>{
+
+    const connectionRef=firestore.collection(connectionKey);
+    firestore.collection(connectionKey).get().then(snap => {
+        if(snap.size<1){
+            const batch = firestore.batch();
+            console.log(objectToDo);
+            objectToDo.forEach(obj=>{
+                const newRef=connectionRef.doc();
+                batch.set(newRef,obj);
+            })
+            return batch.commit();
+        }else{
+            return;
+        }
+    });
+
+}
+export const covertCollectionSnapshotToMap=(collections)=>{
+    const transformedCollection=collections.docs.map(doc=>{
+        const {title,items}=doc.data();
+        return {
+            routeName:encodeURI(title.toLowerCase()),
+            id:doc.id,
+            title,
+            items
+        }
+    })
+    return transformedCollection.reduce((accumulator,collection)=>{
+         accumulator.push(collection);
+        return accumulator;
+    },[])
+
+}
 export const createUserProfileDocument=async (userAuth,additionalUserInfo)=>{
     if(!userAuth) return;
     const userRef=firestore.doc(`users/${userAuth.uid}`);
